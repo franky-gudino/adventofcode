@@ -10,6 +10,7 @@ fn main() {
 
     match day {
         "1" => days::day_1::solve(contents),
+        "2" => days::day_2::solve(contents),
         _ => println!("Day not supported"),
     }
 }
