@@ -18,16 +18,9 @@ pub fn solve(contents: String) {
 
 fn is_invalid_id(id: u64) -> bool {
     let id_string = id.to_string();
-    let mut is_invalid = false;
+    let id_len = id_string.len();
 
-    for i in 1..((id_string.chars().count() / 2) + 1) {
-        if id_string[0..i] == id_string[i..] {
-            is_invalid = true;
-            break;
-        }
-    }
-
-    is_invalid
+    id_len % 2 == 0 && &id_string[..id_len / 2] == &id_string[id_len / 2..]
 }
 
 fn parse_id_range(id_range: String) -> (u64, u64) {
