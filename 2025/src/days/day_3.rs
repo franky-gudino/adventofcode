@@ -1,16 +1,48 @@
 pub fn solve(contents: String) {
     let battery_banks = parse_contents(contents);
-    let mut total_output: u32 = 0;
+    let mut total_output_p1: u32 = 0;
+    let mut total_output_p2: u64 = 0;
 
     for bank in battery_banks {
-        total_output += get_largest_joltage(bank);
+        total_output_p1 += get_largest_joltage_p1(&bank);
+        total_output_p2 += get_largest_joltage_p2(&bank);
     }
 
     println!("Day 3:\n-----------------");
-    println!("[Part 1] Total Output: {total_output}");
+    println!("[Part 1] Total Output: {total_output_p1}");
+    println!("[Part 2] Total Output: {total_output_p2}");
 }
 
-fn get_largest_joltage(bank: String) -> u32 {
+fn get_largest_joltage_p2(bank: &String) -> u64 {
+    let batteries: Vec<char> = bank.chars().collect();
+    let mut twelve_digits = [('0', 0 as usize); 12];
+
+    for i in 0..12 {
+        let previous_highest_index = if i == 0 {
+            0
+        } else {
+            twelve_digits[i - 1].1 + 1
+        };
+
+        for j in previous_highest_index..batteries.len() - (12 - i - 1) {
+            if twelve_digits[i].0 < batteries[j] {
+                twelve_digits[i].0 = batteries[j];
+                twelve_digits[i].1 = j;
+            }
+        }
+    }
+
+    let mut largest_joltage: u64 = 0;
+
+    for i in 0..12 {
+        let digit = twelve_digits[i].0.to_digit(10).map(u64::from).unwrap();
+        largest_joltage += digit * (10 as u64).pow(12 - 1 - (i as u32));
+    }
+
+    largest_joltage
+}
+
+fn get_largest_joltage_p1(bank: &String) -> u32 {
     let batteries: Vec<char> = bank.chars().collect();
     let mut first_digit = (batteries[0], 0);
 
