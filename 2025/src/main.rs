@@ -12,6 +12,7 @@ fn main() {
         "1" => days::day_1::solve(contents),
         "2" => days::day_2::solve(contents),
         "3" => days::day_3::solve(contents),
+        "4" => days::day_4::solve(contents),
         _ => println!("Day not supported"),
     }
 }
