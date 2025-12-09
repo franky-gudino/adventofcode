@@ -6,7 +6,7 @@ pub fn solve(contents: String) {
     println!("[Part 1] Accessible Rolls: {accessible_rolls_p1}");
 }
 
-const DIRECTIONS: [(i32, i32); 8] = [
+const DIRECTIONS: [(isize, isize); 8] = [
     (-1, 0),
     (-1, -1),
     (0, -1),
@@ -18,25 +18,22 @@ const DIRECTIONS: [(i32, i32); 8] = [
 ];
 
 fn get_accessible_rolls_p1(grid_of_rolls: Vec<Vec<char>>) -> u32 {
-    let rows = grid_of_rolls.len();
-    let cols = grid_of_rolls[0].len();
+    let rows = grid_of_rolls.len() as isize;
+    let cols = grid_of_rolls[0].len() as isize;
     let mut total_accessible_rows: u32 = 0;
 
-    for r in 0..grid_of_rolls.len() {
-        for c in 0..grid_of_rolls[0].len() {
-            if grid_of_rolls[r][c] != '@' {
+    for r in 0..rows {
+        for c in 0..cols {
+            if grid_of_rolls[r as usize][c as usize] != '@' {
                 continue;
             }
 
             let mut adj_rolls = 0;
 
             for (x, y) in DIRECTIONS {
-                let is_in_grid = (0..rows as i32).contains(&(r as i32 + y))
-                    && (0..cols as i32).contains(&(c as i32 + x));
+                let is_in_grid = (0..rows).contains(&(r + y)) && (0..cols).contains(&(c + x));
 
-                if is_in_grid
-                    && grid_of_rolls[(r as i32 + y) as usize][(c as i32 + x) as usize] == '@'
-                {
+                if is_in_grid && grid_of_rolls[(r + y) as usize][(c + x) as usize] == '@' {
                     adj_rolls += 1;
                 }
             }
